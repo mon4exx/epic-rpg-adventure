@@ -1,90 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, Text, View, Pressable, Alert } from "react-native";
-import { useRouter } from "expo-router";
+import { ScrollView, Text, View, TouchableOpacity } from "react-native";
+
 import { ScreenContainer } from "@/components/screen-container";
-import { useGame } from "@/lib/game-context";
 
+/**
+ * Home Screen - NativeWind Example
+ *
+ * This template uses NativeWind (Tailwind CSS for React Native).
+ * You can use familiar Tailwind classes directly in className props.
+ *
+ * Key patterns:
+ * - Use `className` instead of `style` for most styling
+ * - Theme colors: use tokens directly (bg-background, text-foreground, bg-primary, etc.); no dark: prefix needed
+ * - Responsive: standard Tailwind breakpoints work on web
+ * - Custom colors defined in tailwind.config.js
+ */
 export default function HomeScreen() {
-  const router = useRouter();
-  const { gameState, loadGame, isLoading } = useGame();
-  const [hasExistingGame, setHasExistingGame] = useState(false);
-
-  useEffect(() => {
-    // Check if there's an existing game
-    loadGame().then(() => {
-      setHasExistingGame(!!gameState);
-    });
-  }, []);
-
-  const handleNewGame = () => {
-    router.push("/character-creation");
-  };
-
-  const handleContinueGame = () => {
-    if (gameState) {
-      router.push("/game-screen");
-    }
-  };
-
   return (
     <ScreenContainer className="p-6">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 gap-8 justify-center">
-          {/* Title */}
-          <View className="items-center gap-4">
-            <Text className="text-5xl font-bold text-foreground">⚔️</Text>
-            <Text className="text-4xl font-bold text-foreground">Epic RPG Adventure</Text>
-            <Text className="text-base text-muted text-center">Experience an immersive fantasy adventure</Text>
+        <View className="flex-1 gap-8">
+          {/* Hero Section */}
+          <View className="items-center gap-2">
+            <Text className="text-4xl font-bold text-foreground">Welcome</Text>
+            <Text className="text-base text-muted text-center">
+              Edit app/(tabs)/index.tsx to get started
+            </Text>
           </View>
 
-          {/* Main Buttons */}
-          <View className="gap-3">
-            {hasExistingGame && (
-              <Pressable
-                onPress={handleContinueGame}
-                style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
-                className="bg-success rounded-lg py-4 px-6 items-center"
-              >
-                <Text className="text-white font-bold text-lg">Continue Game</Text>
-              </Pressable>
-            )}
-
-            <Pressable
-              onPress={handleNewGame}
-              style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
-              className="bg-primary rounded-lg py-4 px-6 items-center"
-            >
-              <Text className="text-white font-bold text-lg">New Game</Text>
-            </Pressable>
+          {/* Example Card */}
+          <View className="w-full max-w-sm self-center bg-surface rounded-2xl p-6 shadow-sm border border-border">
+            <Text className="text-lg font-semibold text-foreground mb-2">NativeWind Ready</Text>
+            <Text className="text-sm text-muted leading-relaxed">
+              Use Tailwind CSS classes directly in your React Native components.
+            </Text>
           </View>
 
-          {/* Features */}
-          <View className="bg-surface rounded-lg p-6 gap-3">
-            <Text className="text-lg font-semibold text-foreground mb-2">Features</Text>
-            <FeatureItem icon="⚔️" text="Turn-based combat system" />
-            <FeatureItem icon="📊" text="Character progression & leveling" />
-            <FeatureItem icon="🎯" text="Quest system with rewards" />
-            <FeatureItem icon="🏪" text="Shop & crafting system" />
-            <FeatureItem icon="🐉" text="Boss battles & dungeons" />
-            <FeatureItem icon="🏆" text="Achievements & prestige" />
-          </View>
-
-          {/* Footer */}
-          <View className="items-center gap-1">
-            <Text className="text-xs text-muted">Version 1.0.0</Text>
-            <Text className="text-xs text-muted">Made with ❤️ using Expo & React Native</Text>
+          {/* Example Button */}
+          <View className="items-center">
+            <TouchableOpacity className="bg-primary px-6 py-3 rounded-full active:opacity-80">
+              <Text className="text-background font-semibold">Get Started</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </ScreenContainer>
-  );
-}
-
-function FeatureItem({ icon, text }: { icon: string; text: string }) {
-  return (
-    <View className="flex-row items-center gap-3">
-      <Text className="text-xl">{icon}</Text>
-      <Text className="text-sm text-foreground flex-1">{text}</Text>
-    </View>
   );
 }
